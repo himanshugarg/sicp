@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- This manual documents the use of MIT/GNU Scheme 11.1.
+
+Copyright (C) 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993,
+    1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
+    2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015,
+    2016, 2017, 2018, 2019, 2020 Massachusetts Institute of Technology
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts and no Back-Cover Texts.
+A copy of the license is included in the section entitled "GNU Free
+Documentation License." --><!-- Created by GNU Texinfo 6.7, http://www.gnu.org/software/texinfo/ --><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>GNU Emacs Interface (MIT/GNU Scheme 11.1)</title>
+
+<meta name="description" content="GNU Emacs Interface (MIT/GNU Scheme 11.1)">
+<meta name="keywords" content="GNU Emacs Interface (MIT/GNU Scheme 11.1)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<link href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/index.html" rel="start" title="Top">
+<link href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/Environment_002dvariable-Index.html" rel="index" title="Environment-variable Index">
+<link href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/index.html" rel="up" title="Top">
+<link href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/Edwin.html" rel="next" title="Edwin">
+<link href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/Profiling.html" rel="prev" title="Profiling">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<span id="GNU-Emacs-Interface"></span><div class="header">
+<p>
+Next: <a href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/Edwin.html" accesskey="n" rel="next">Edwin</a>, Previous: <a href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/Profiling.html" accesskey="p" rel="prev">Profiling</a>, Up: <a href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/index.html" accesskey="u" rel="up">Top</a> &nbsp; [<a href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/Environment_002dvariable-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="GNU-Emacs-Interface-1"></span><h2 class="chapter">7 GNU Emacs Interface</h2>
+
+<p>GNU Emacs is distributed with a loadable package <code>xscheme</code>, which
+facilitates running Scheme as a subprocess of Emacs.
+</p>
+<span id="index-run_002dscheme"></span>
+<span id="index-_002d_002demacs-1"></span>
+<p>To invoke Scheme from Emacs, load the <code>xscheme</code> package (for
+example by ‘<samp>(require 'xscheme)</samp>’, then use <kbd>M-x run-scheme</kbd>.
+You may give <code>run-scheme</code> a prefix argument, in which case it
+will allow you to edit the command line that is used to invoke Scheme.
+<em>Do not</em> remove the <samp>--emacs</samp> option!
+</p>
+<p><em>Note carefully:</em> In Emacs 19 and later, the <code>run-scheme</code>
+command exists, but is different from the one described here!  In order
+to get this interface, you must load the <samp>xscheme</samp> library before
+executing <code>run-scheme</code>.
+</p>
+<span id="index-scheme_002dinteraction_002dmode"></span>
+<p>Scheme will be started up as a subprocess in a buffer called
+‘<samp>*scheme*</samp>’.  This buffer will be in <code>scheme-interaction-mode</code>
+and all output from the Scheme process will go there.  The mode line for
+the ‘<samp>*scheme*</samp>’ buffer will have this form:
+</p>
+<div class="example">
+<pre class="example">--**-*scheme*: 1 [Evaluator]           (Scheme Interaction: input)------
+</pre></div>
+
+<p><span id="index-level-number_002c-REPL-1"></span>
+The first field, showing ‘<samp>1</samp>’ in this example, is the level number.
+</p>
+<p>The second field, showing ‘<samp>[Evaluator]</samp>’ in this example, describes
+the type of <acronym>REPL</acronym> that is running.  Other values include:
+</p>
+<div class="example">
+<pre class="example">[Debugger]
+[Where]
+</pre></div>
+
+<p>The <em>mode</em> after ‘<samp>Scheme Interaction</samp>’ is one of:
+</p>
+<dl compact="compact">
+<dt>‘<samp>input</samp>’</dt>
+<dd><p>Scheme is waiting for input.
+</p>
+</dd>
+<dt>‘<samp>run</samp>’</dt>
+<dd><p>Scheme is running an evaluation.
+</p>
+</dd>
+<dt>‘<samp>gc</samp>’</dt>
+<dd><p>Scheme is garbage collecting.
+</p></dd>
+</dl>
+
+<span id="index-scheme_002dmode"></span>
+<p>When the <code>xscheme</code> package is loaded into Emacs,
+<code>scheme-mode</code> is extended to include commands for evaluating
+expressions (do <kbd>C-h m</kbd> in any <code>scheme-mode</code> buffer for the
+most up-to-date information):
+</p>
+<dl compact="compact">
+<dt><kbd>M-o</kbd></dt>
+<dd><span id="index-M_002do"></span>
+<span id="index-xscheme_002dsend_002dbuffer"></span>
+<p>Evaluates the current buffer (<code>xscheme-send-buffer</code>).
+</p>
+</dd>
+<dt><kbd>M-z</kbd></dt>
+<dd><span id="index-M_002dz"></span>
+<span id="index-xscheme_002dsend_002ddefinition"></span>
+<p>Evaluates the current definition (<code>xscheme-send-definition</code>).  This
+is also bound to <kbd>C-M-x</kbd>.
+</p>
+</dd>
+<dt><kbd>C-M-z</kbd></dt>
+<dd><span id="index-C_002dM_002dz"></span>
+<span id="index-xscheme_002dsend_002dregion"></span>
+<p>Evaluates the current region (<code>xscheme-send-region</code>).
+</p>
+</dd>
+<dt><kbd>C-x C-e</kbd></dt>
+<dd><span id="index-C_002dx-C_002de"></span>
+<span id="index-xscheme_002dsend_002dprevious_002dexpression"></span>
+<p>Evaluates the expression to the left of point
+(<code>xscheme-send-previous-expression</code>).  This is also bound to
+<kbd>M-<span class="key">RET</span></kbd>.
+</p>
+</dd>
+<dt><kbd>C-c C-s</kbd></dt>
+<dd><span id="index-C_002dc-C_002ds"></span>
+<span id="index-xscheme_002dselect_002dprocess_002dbuffer"></span>
+<p>Selects the ‘<samp>*scheme*</samp>’ buffer and places you at its end
+(<code>xscheme-select-process-buffer</code>).
+</p>
+</dd>
+<dt><kbd>C-c C-y</kbd></dt>
+<dd><span id="index-C_002dc-C_002dy"></span>
+<span id="index-xscheme_002dyank_002dprevious_002dsend"></span>
+<p>Yanks the most recently evaluated expression, placing it at point
+(<code>xscheme-yank-previous-send</code>).  This works only in the
+‘<samp>*scheme*</samp>’ buffer.
+</p></dd>
+</dl>
+
+<p>The following commands provide interrupt capability:
+</p>
+<dl compact="compact">
+<dt><kbd>C-c C-c</kbd></dt>
+<dd><span id="index-C_002dc-C_002dc-1"></span>
+<span id="index-xscheme_002dsend_002dcontrol_002dg_002dinterrupt"></span>
+<p>Like typing <kbd>C-g</kbd> when running Scheme in a terminal.
+(<code>xscheme-send-control-g-interrupt</code>)
+</p>
+</dd>
+<dt><kbd>C-c C-x</kbd></dt>
+<dd><span id="index-C_002dc-C_002dx-1"></span>
+<span id="index-xscheme_002dsend_002dcontrol_002dx_002dinterrupt"></span>
+<p>Like typing <kbd>C-c C-x</kbd> when running Scheme in a terminal.
+(<code>xscheme-send-control-x-interrupt</code>)
+</p>
+</dd>
+<dt><kbd>C-c C-u</kbd></dt>
+<dd><span id="index-C_002dc-C_002du-1"></span>
+<span id="index-xscheme_002dsend_002dcontrol_002du_002dinterrupt"></span>
+<p>Like typing <kbd>C-c C-u</kbd> when running Scheme in a terminal.
+(<code>xscheme-send-control-u-interrupt</code>)
+</p>
+</dd>
+<dt><kbd>C-c C-b</kbd></dt>
+<dd><span id="index-C_002dc-C_002db-1"></span>
+<span id="index-xscheme_002dsend_002dbreakpoint_002dinterrupt"></span>
+<p>Like typing <kbd>C-c C-b</kbd> when running Scheme in a terminal.
+(<code>xscheme-send-breakpoint-interrupt</code>)
+</p>
+</dd>
+<dt><kbd>C-c C-p</kbd></dt>
+<dd><span id="index-C_002dc-C_002dp"></span>
+<span id="index-xscheme_002dsend_002dproceed"></span>
+<p>Like evaluating ‘<samp>(continue)</samp>’.  (<code>xscheme-send-proceed</code>)
+</p></dd>
+</dl>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/Edwin.html" accesskey="n" rel="next">Edwin</a>, Previous: <a href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/Profiling.html" accesskey="p" rel="prev">Profiling</a>, Up: <a href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/index.html" accesskey="u" rel="up">Top</a> &nbsp; [<a href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="https://www.gnu.org/software/mit-scheme/documentation/stable/mit-scheme-user/Environment_002dvariable-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+
+
+</body></html>
