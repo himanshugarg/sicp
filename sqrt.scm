@@ -1,8 +1,8 @@
-(define (sqrt-iter guess x)
-  (if (good-enough? guess x)
+(define (sqrt-iter guess x good-enough-test?)
+  (if (good-enough-test? guess x)
       guess
       (sqrt-iter (improve guess x)
-		 x)))
+		 x good-enough-test?)))
 
 (define (improve guess x)
   (average guess (/ x guess)))
@@ -16,5 +16,21 @@
 (define (average a b)
   (/ (+ a b) 2))
 
-(sqrt-iter 2 1)
+(define (good-enough-alt? guess x)
+  (< (abs (- (improve guess x) guess)) 0.0001))
+
+(sqrt-iter 1 2 good-enough?)
+
+(sqrt-iter 1 2 good-enough-alt?)
+
+(sqrt-iter 1 1000000 good-enough?)
+
+(sqrt-iter 1 1000000 good-enough-alt?)
+
+(sqrt-iter 1 0.001 good-enough?)
+
+(sqrt-iter 1 0.001 good-enough-alt?)
+
+
+
 
