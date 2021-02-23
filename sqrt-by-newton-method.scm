@@ -5,12 +5,12 @@
 		 x good-enough-test? improve-fn)))
 
 (define (abs x)
-  (if (> x 0) x (* -1 x)))
+ (if (> x 0) x (* -1 x)))
 
-(define (average a b)
-  (/ (+ a b) 2))
 
 (define (improve guess x)
+  (define (average a b)
+    (/ (+ a b) 2))
   (average guess (/ x guess)))
 
 (define (improve-alt y x)
@@ -41,3 +41,10 @@
   (sqrt x good-enough-alt? improve-alt))
 
 (cuberoot 8)
+
+(define (a)
+  (+ 2 3)
+  (+ 4 5)
+  )
+
+(a)
