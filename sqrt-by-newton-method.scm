@@ -7,7 +7,6 @@
 (define (abs x)
  (if (> x 0) x (* -1 x)))
 
-
 (define (improve guess x)
   (define (average a b)
     (/ (+ a b) 2))
